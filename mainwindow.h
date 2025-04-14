@@ -1,21 +1,35 @@
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
-
-#include <QMainWindow>
-
-QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
-QT_END_NAMESPACE
-
-class MainWindow : public QMainWindow
+#ifndef mainwindow_h
+#define mainwindow_h
+#include <QtGui>
+#include <QFrame>
+#include <QLineedit>
+#include <Qlabel>
+#include <QPushButton>
+class mainwindow:public QWidget // класс окна
 {
-    Q_OBJECT
-
+    Q_OBJECT // макрос Qt, обеспечивающий корректное создание сигналов и слотов
+protected:
+    QTextCodec *codec;
+    QFrame *frame; // рамка
+    QLabel *inputLabel; // метка ввода
+    QLineEdit *inputEdit; // строчный редактор ввода
+    QLabel *outputLabel; // метка вывода
+    QLineEdit *outputEdit; // строчный редактор вывода
+    QPushButton *nextButton; // кнопка Следующее
+    QPushButton *exitButton; // кнопка Выход
 public:
-    MainWindow(QWidget *parent = nullptr);
-    ~MainWindow();
-
-private:
-    Ui::MainWindow *ui;
+    mainwindow(QWidget *parent = 0); // конструктор
+public slots:
+    void begin(); // метод начальной настройки интерфейса
+    void calc(); // метод реализации вычислений
 };
-#endif // MAINWINDOW_H
+class StrValidator:public QValidator // класс компонента проверки ввода
+{
+public:
+    StrValidator(QObject *parent):QValidator(parent){}
+    virtual State validate(QString &str,int &pos)const
+    {
+        return Acceptable; // метод всегда принимает вводимую строку
+    }
+};
+#endif
